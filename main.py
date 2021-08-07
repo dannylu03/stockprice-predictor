@@ -3,19 +3,26 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pandas_datareader as web
 import datetime as dt
+from datetime import timedelta
 
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, LSTM
 
 # Load Data
-company = "AMZN"
+company = "FB"
 
 start = dt.datetime(2012, 1, 1)
 end = dt.datetime.now()
 # end = dt.datetime(2020, 1, 1)
 
 data = web.DataReader(company, 'yahoo', start, end)
+
+df = pd.DataFrame(data)
+
+dates = [start+timedelta(days=x) for x in range((end-start).days)] # x coords
+
+stock_prices = df['Close'].tolist() # y coords
 
 # Prepare Data
 scaler = MinMaxScaler(feature_range=(0,1)) # Scale down all values to fit between 0 and 1
@@ -85,14 +92,14 @@ predicted_prices = model.predict(x_test)
 predicted_prices = scaler.inverse_transform(predicted_prices)
 
 # Plot the Actual and Predicted Prices to visualize the accuary
-plt.plot(actual_prices, color="black", label=f"Actual {company} Price")
-# print(actual_prices)
-plt.plot(predicted_prices, color="green", label=f"Predicted {company} Price")
-plt.title(f"{company} Share Price")
-plt.xlabel("Time")
-plt.ylabel(f"{company} Share Price")
-plt.legend()
-plt.show()
+# plt.plot(actual_prices, color="black", label=f"Actual {company} Price")
+# # print(actual_prices)
+# plt.plot(predicted_prices, color="green", label=f"Predicted {company} Price")
+# plt.title(f"{company} Share Price")
+# plt.xlabel("Time")
+# plt.ylabel(f"{company} Share Price")
+# plt.legend()
+# plt.show()
 
 real_data = [model_inputs[len(model_inputs) + 1 - prediction_days:len(model_inputs) + 1, 0]]
 
