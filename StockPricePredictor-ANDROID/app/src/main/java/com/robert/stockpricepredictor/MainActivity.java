@@ -21,8 +21,10 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
@@ -116,6 +118,39 @@ public class MainActivity extends AppCompatActivity {
         stockNameSelected = autocompleteStockName.getText().toString();
 
         if(stockNames.contains(stockNameSelected)) {
+            OkHttpClient okHttpClient = new OkHttpClient();
+            RequestBody formbody = new FormBody.Builder().add("stock",stockNameSelected)
+                    .build();
+            Request request = new Request.Builder().url().post(formbody).build();
+            okHttpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this,e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    TextView textView = findViewById((R.id.[insert text id]))
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                textView.setText((response.body().string()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+
+                }
+            });
 
         }
         else {
