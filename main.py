@@ -85,27 +85,19 @@ model_inputs = total_dataset[len(total_dataset) - len(test_data) - prediction_da
 model_inputs = model_inputs.reshape(-1, 1)
 model_inputs = scaler.transform(model_inputs)
 
-# # Predictions on Test Data
-# x_test = []
+# test_stock_prices = [str(stock) for stock in stock_prices] # y coords for test graph
 
-# for x in range(prediction_days, len(model_inputs)):
-# 	x_test.append(model_inputs[x-prediction_days:x, 0])
+# Predictions on Test Data
+x_test = []
 
-# x_test = np.array(x_test)
-# x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-# # print(x_test)
-# predicted_prices = model.predict(x_test)
-# predicted_prices = scaler.inverse_transform(predicted_prices)
+for x in range(prediction_days, len(model_inputs)):
+	x_test.append(model_inputs[x-prediction_days:x, 0])
 
-# # Plot the Actual and Predicted Prices to visualize the accurary
-# plt.plot(actual_prices, color="black", label=f"Actual {ticker} Price")
-# # print(actual_prices)
-# plt.plot(predicted_prices, color="green", label=f"Predicted {ticker} Price")
-# plt.title(f"{ticker} Share Price")
-# plt.xlabel("Time")
-# plt.ylabel(f"{ticker} Share Price")
-# plt.legend()
-# plt.show()
+x_test = np.array(x_test)
+x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
+# print(x_test)
+predicted_prices = model.predict(x_test)
+predicted_prices = scaler.inverse_transform(predicted_prices)
 
 real_data = [model_inputs[len(model_inputs) + 1 - prediction_days:len(model_inputs) + 1, 0]]
 
@@ -115,4 +107,10 @@ real_data = np.reshape(real_data, (real_data.shape[0], real_data.shape[1], 1))
 
 prediction = model.predict(real_data)
 prediction = scaler.inverse_transform(prediction)
-print(f"Prediction: {prediction}")
+
+prediction_num = np.array_str(prediction)
+
+print(prediction_num)
+
+
+# print(f"Prediction: {prediction}")
