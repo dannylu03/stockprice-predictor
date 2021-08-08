@@ -14,15 +14,18 @@ company = "FB"
 
 start = dt.datetime(2012, 1, 1)
 end = dt.datetime.now()
+
 # end = dt.datetime(2020, 1, 1)
 
 data = web.DataReader(company, 'yahoo', start, end)
 
 df = pd.DataFrame(data)
 
-dates = [start+timedelta(days=x) for x in range((end-start).days)] # x coords
+dates = [start+timedelta(days=x) for x in range((end-start).days)] 
+dates = [date_obj.strftime('%Y-%m-%d') for date_obj in dates] # x coords
 
-stock_prices = df['Close'].tolist() # y coords
+stock_prices = df['Close'].tolist() 
+stock_prices = [str(stock) for stock in stock_prices] # y coords
 
 # Prepare Data
 scaler = MinMaxScaler(feature_range=(0,1)) # Scale down all values to fit between 0 and 1
@@ -79,17 +82,17 @@ model_inputs = total_dataset[len(total_dataset) - len(test_data) - prediction_da
 model_inputs = model_inputs.reshape(-1, 1)
 model_inputs = scaler.transform(model_inputs)
 
-# Predictions on Test Data
-x_test = []
+# # Predictions on Test Data
+# x_test = []
 
-for x in range(prediction_days, len(model_inputs)):
-	x_test.append(model_inputs[x-prediction_days:x, 0])
+# for x in range(prediction_days, len(model_inputs)):
+# 	x_test.append(model_inputs[x-prediction_days:x, 0])
 
-x_test = np.array(x_test)
-x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-# print(x_test)
-predicted_prices = model.predict(x_test)
-predicted_prices = scaler.inverse_transform(predicted_prices)
+# x_test = np.array(x_test)
+# x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
+# # print(x_test)
+# predicted_prices = model.predict(x_test)
+# predicted_prices = scaler.inverse_transform(predicted_prices)
 
 # Plot the Actual and Predicted Prices to visualize the accuary
 # plt.plot(actual_prices, color="black", label=f"Actual {company} Price")
