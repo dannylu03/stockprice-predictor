@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 reader.close();
         }
     }
-    OkHttpClient okHttpClient = new OkHttpClient();
 
     public void submitStockInfo(View view) {
 
