@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Stock Price Predictor</string>
+    
+    <string-array name="STOCKS">
+        <item>GOOG</item>
+        <item>NASDAQ</item>
+        <item>FBOOK</item>
+    </string-array>
+</resources>

@@ -1,0 +1,2 @@
+rootProject.name = "Stock Price Predictor"
+include ':app'
