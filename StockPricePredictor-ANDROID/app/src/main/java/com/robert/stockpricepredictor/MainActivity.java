@@ -21,10 +21,8 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String stockNameSelected;
 
-    private String finnhubApiToken;
+    private String finnhubApiToken = "c46vqk2ad3iagvmhh27g";
     private final String URL_FINNHUB_SYMBOL_LOOKUP_BASE = "https://finnhub.io/api/v1/stock/symbol?exchange=US";
     private final String URL_FINNHUB_TOKEN_ARG = "&token=";
     private String URL_FINNHUB;
@@ -60,22 +58,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Gson gson = new Gson();
-
-        // TODO: get finnhub api token through flask
-        OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder().url("http://192.168.2.222:5000/api").build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-             Toast.makeText(MainActivity.this,"network not found",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                finnhubApiToken = response.body().string();
-            }
-        });
-
 
         // get important UI elements, store them globally
         autocompleteStockName = findViewById(R.id.autocompleteStockName);
