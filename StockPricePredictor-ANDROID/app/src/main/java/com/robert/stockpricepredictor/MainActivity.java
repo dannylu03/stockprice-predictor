@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
             OkHttpClient okHttpClient = new OkHttpClient();
             RequestBody formbody = new FormBody.Builder().add("stock",stockNameSelected)
                     .build();
-            Request request = new Request.Builder().url().post(formbody).build();
+            Request request = new Request.Builder().url("").post(formbody).build();
             okHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -133,10 +133,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    TextView textView = findViewById((R.id.[insert text id]))
+                    TextView textView = findViewById((R.id.textViewPrice));
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
