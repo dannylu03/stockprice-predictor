@@ -1,29 +1,20 @@
 package com.robert.stockpricepredictor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -79,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
             Stock[] exchangeStocks = gson.fromJson(jsonData, Stock[].class);
             for (Stock stock : exchangeStocks) {
                 stockNames.add(stock.symbol);
-                Log.d(null, stock.symbol);
             }
         });
         thread.start();
@@ -115,12 +105,12 @@ public class MainActivity extends AppCompatActivity {
 
         stockNameSelected = autocompleteStockName.getText().toString();
 
-        if(stockNames.contains(stockNameSelected)) {
-
-        }
+        if(stockNames.contains(stockNameSelected)) {}
         else {
             logText.setText("Error: Not a valid ticker symbol!");
         }
+        Intent myIntent = new Intent(this, PriceActivity.class);
+        startActivity(myIntent);
     }
 
     public void clearInfo(View view) {
