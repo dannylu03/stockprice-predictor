@@ -6,15 +6,26 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,6 +63,20 @@ public class MainActivity extends AppCompatActivity {
         Gson gson = new Gson();
 
         // TODO: get finnhub api token through flask
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().url("http://192.168.2.222:5000/api").build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+             Toast.makeText(MainActivity.this,"network not found",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                finnhubApiToken = response.body().string();
+            }
+        });
+
 
         // get important UI elements, store them globally
         autocompleteStockName = findViewById(R.id.autocompleteStockName);
@@ -104,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 reader.close();
         }
     }
+    OkHttpClient okHttpClient = new OkHttpClient();
 
     public void submitStockInfo(View view) {
 
