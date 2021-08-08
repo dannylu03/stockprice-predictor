@@ -37,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String stockNameSelected;
 
-    // TODO: CHANGE THIS TO NULL LATER, DO NOT HARDCODE THE TOKEN RETRIEVE IT THRU FLASK
-    private String finnhubApiToken = "c46vqk2ad3iagvmhh27g";
+    private String finnhubApiToken;
     private final String URL_FINNHUB_SYMBOL_LOOKUP_BASE = "https://finnhub.io/api/v1/stock/symbol?exchange=US";
     private final String URL_FINNHUB_TOKEN_ARG = "&token=";
     private String URL_FINNHUB;
